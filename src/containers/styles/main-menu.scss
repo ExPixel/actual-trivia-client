@@ -1,0 +1,26 @@
+.main-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-menu-header {
+    font-size: 3.6rem;
+    margin: 32px;
+    text-align: center;
+}
+
+.main-menu-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.item-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.menu-right {
+    flex: 1;
+}

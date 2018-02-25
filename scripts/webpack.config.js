@@ -3,6 +3,7 @@
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 const util = require("./util");
 const rel = util.rel;
 
@@ -21,6 +22,7 @@ const defs = {
     },
 
     dev: {
+        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
         "process.env.NODE_ENV": JSON.stringify("development")
     },
 
@@ -37,19 +39,21 @@ const babelOptions = {
             "@babel/preset-env", {
                 "targets": {
                     "browsers": "last 2 versions"
-                }
+                },
+                "exclude": ["transform-regenerator"]
             }
         ]
     ],
     // #FIXME this causes a lot of errors on build, not sure why.
     // usually I need this thing but now it's suddenly a problem.
-    // plugins: ["@babel/plugin-transform-runtime"]
-    plugins: ["react-hot-loader/babel"]
+    // plugins: ["@babel/plugin-transform-runtime"],
+    plugins: ["transform-decorators-legacy", "react-hot-loader/babel"]
 };
 
-if (inProdMode) {
-    babelOptions.presets.push("minify");
-}
+// if (inProdMode) {
+//     // #NOTE { removeUndefined: true } is there to fix this weird error: https://github.com/babel/minify/issues/790
+//     babelOptions.presets.push(["minify", { removeUndefined: false }]);
+// }
 
 module.exports = {
     entry: rel.src("index.tsx"),
@@ -167,5 +171,10 @@ module.exports = {
         "react-dom": "ReactDOM"
     },
 
-    devtool: 'source-map'
+    devtool: inDevMode ? 'source-map' : ""
 };
+
+if (inProdMode) {
+    // #NOTE { removeUndefined: true } is there to fix this weird error: https://github.com/babel/minify/issues/790
+    module.exports.plugins.push(new MinifyPlugin({ removeUndefined: false }, {}))
+}

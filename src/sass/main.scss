@@ -1,0 +1,23 @@
+@import "open-color";
+@import "vars";
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: $html-font-size;
+    font-family: $html-font-family;
+}
+
+body {
+    font-size: $font-size-md;
+    background-color: #212529;
+    color: $font-color;
+}
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}

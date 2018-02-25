@@ -1,7 +1,21 @@
+@import "~gsass/open-color";
+
 .app-container {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
+
+    overflow-y: auto;
+}
+
+.bg-indigo {
+    background-color: $oc-indigo-9;
+    color: $oc-gray-0;
+}
+
+.bg-indigo-gradient {
+    background: linear-gradient($oc-indigo-9, $oc-violet-9);
+    animation: animated-bg 5s ease;
 }
