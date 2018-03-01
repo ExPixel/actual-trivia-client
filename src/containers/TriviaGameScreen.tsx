@@ -4,6 +4,11 @@ import { match } from "react-router";
 import { observer } from "mobx-react";
 import { shouldComponentUpdateRoute } from "../util";
 import { getRootStore } from "../store";
+import { TriviaMode } from "../store/trivia-store";
+import TriviaLobbyScreen from "./TriviaLobbyScreen";
+import TriviaPrompt from "../components/trivia/TriviaPrompt";
+import TriviaPromptScreen from "./TriviaPromptScreen";
+import TriviaResultsScreen from "./TriviaResultsScreen";
 
 export interface ITriviaGameScreenProps {
     match: match<{ gameId: string; }>;
@@ -27,8 +32,22 @@ export class TriviaGameScreen extends React.Component<ITriviaGameScreenProps, {}
     }
 
     public render() {
+        let mainContent: JSX.Element;
+        switch (this.triviaStore.currentMode) {
+            case TriviaMode.WaitingToStart:
+                mainContent = <TriviaLobbyScreen />;
+                break;
+            case TriviaMode.ShowQuestion:
+                mainContent = <TriviaPromptScreen />;
+                break;
+            case TriviaMode.ReportScores:
+                mainContent = <TriviaResultsScreen />;
+                break;
+            default: throw new Error("unreachable trivia mode: " + this.triviaStore.currentMode);
+        }
+
         return <div>
-            Game Screen, fam: {this.props.match.params.gameId}
+            {mainContent}
         </div>;
     }
 }

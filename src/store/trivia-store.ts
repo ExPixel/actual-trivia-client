@@ -10,13 +10,46 @@ export class TriviaStore {
     @observable public gameId: string | null = null;
     @observable public connecting: boolean = false;
 
+    @observable public currentMode: TriviaMode = TriviaMode.WaitingToStart;
+    @observable public question: IQuestion = {
+        index: -1,
+        prompt: "",
+        choices: [],
+        correctChoice: -1,
+    };
+
     constructor(private rootStore: RootStore, private client: TriviaAPIClient) {
     }
 
+    @action
     private messageReceived(message: IncomingMessage) {
         switch (message.tag) {
             case IncomingMessageTag.GameNotFound: {
                 // #TODO show an error here or something for the game not being found.
+                break;
+            }
+
+            case IncomingMessageTag.UserNotFound: {
+                // #TODO show an error here and remove the user from the game.
+                break;
+            }
+
+            case IncomingMessageTag.GameStartCountdownTick: {
+                // #TODO start the client side countdown on the lobby screen and do cool shit.
+                break;
+            }
+
+            case IncomingMessageTag.GameStart: {
+                this.currentMode = TriviaMode.ShowQuestion;
+                break;
+            }
+
+            case IncomingMessageTag.SetPrompt: {
+                const {payload} = message;
+                this.question.index = payload.index;
+                this.question.prompt = payload.prompt;
+                this.question.choices = payload.choices;
+                this.question.correctChoice = -1;
                 break;
             }
 
@@ -59,4 +92,19 @@ export class TriviaStore {
         }
         this.connecting = false;
     }
+}
+
+export enum TriviaMode {
+    WaitingToStart =  0,
+    ShowQuestion,
+    ReportScores,
+}
+
+export interface IQuestion {
+    index: number;
+    prompt: string;
+    choices: string[];
+
+    /** The index of the correct choice. -1 if the client doesn't know the correct answer yet. */
+    correctChoice: number;
 }
