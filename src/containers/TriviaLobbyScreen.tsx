@@ -1,9 +1,27 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
+import { getRootStore } from "../store";
+import { Countdown } from "../components/countdown/Countdown";
+import { observer } from "mobx-react";
 
-class TriviaLobbyScreen extends React.Component<{}, {}> {
+export interface IState {
+    countingDown: false;
+    lastServerCoutdown: number;
+    currentCountdown: number;
+}
+
+@observer
+class TriviaLobbyScreen extends React.Component<{}, IState> {
+    private userStore = getRootStore().userStore;
+    private triviaStore = getRootStore().triviaStore;
+
     public render() {
-        return <div>TriviaLobbyScreen</div>;
+        return <div>
+            TriviaLobbyScreen
+            { this.triviaStore.gameStartCountdownOn &&
+                <Countdown timeRemaining={this.triviaStore.gameStartCountdownMillis} />
+            }
+        </div>;
     }
 }
 

@@ -10,7 +10,16 @@ export class TriviaStore {
     @observable public gameId: string | null = null;
     @observable public connecting: boolean = false;
 
+    /** true if the game is currently counting down */
+    @observable public gameStartCountdownOn = false;
+
+    /** milliseconds until the game starts. */
+    @observable public gameStartCountdownMillis = 0;
+
     @observable public currentMode: TriviaMode = TriviaMode.WaitingToStart;
+
+    @observable public questionCountdownOn = false;
+    @observable public questionCountdownMillis = 0;
     @observable public question: IQuestion = {
         index: -1,
         prompt: "",
@@ -19,6 +28,20 @@ export class TriviaStore {
     };
 
     constructor(private rootStore: RootStore, private client: TriviaAPIClient) {
+    }
+
+    @action private reset() {
+        this.gameStartCountdownOn = false;
+        this.gameStartCountdownMillis = 0;
+        this.currentMode = TriviaMode.WaitingToStart;
+        this.questionCountdownOn = false;
+        this.questionCountdownMillis = 0;
+        this.question = {
+            index: -1,
+            prompt: "",
+            choices: [],
+            correctChoice: -1,
+        };
     }
 
     @action
@@ -35,12 +58,15 @@ export class TriviaStore {
             }
 
             case IncomingMessageTag.GameStartCountdownTick: {
-                // #TODO start the client side countdown on the lobby screen and do cool shit.
+                this.gameStartCountdownOn = true;
+                this.gameStartCountdownMillis = message.payload.millisRemaining;
                 break;
             }
 
             case IncomingMessageTag.GameStart: {
                 this.currentMode = TriviaMode.ShowQuestion;
+                this.gameStartCountdownOn = false;
+                this.gameStartCountdownMillis = 0;
                 break;
             }
 
@@ -50,6 +76,15 @@ export class TriviaStore {
                 this.question.prompt = payload.prompt;
                 this.question.choices = payload.choices;
                 this.question.correctChoice = -1;
+
+                this.questionCountdownOn = false;
+                this.questionCountdownMillis = 0;
+                break;
+            }
+
+            case IncomingMessageTag.QuestionCountdownTick: {
+                this.questionCountdownOn = true;
+                this.questionCountdownMillis = message.payload.millisRemaining;
                 break;
             }
 
@@ -67,6 +102,7 @@ export class TriviaStore {
     public connectToGame(gameId: string) {
         if (this.socket) { this.socket.close(); }
 
+        this.reset();
         this.gameId = gameId;
         this.connecting = true;
 
