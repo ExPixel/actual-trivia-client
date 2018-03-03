@@ -48,3 +48,12 @@ export function combineStyles(...styles: Array<string | string[]>): string {
     }
     return output;
 }
+
+/**
+ * Turns in object into a class list.
+ * @param o object with class names as keys and a boolean value indicating whether or not the class
+ *          should be included in the final class list string.
+ */
+export function mixClasses(o: {[prop: string]: boolean}): string {
+    return Object.keys(o).filter((k) => !!o[k]).join(" ");
+}

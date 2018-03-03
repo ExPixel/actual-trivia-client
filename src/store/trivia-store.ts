@@ -20,12 +20,12 @@ export class TriviaStore {
 
     @observable public questionCountdownOn = false;
     @observable public questionCountdownMillis = 0;
-    @observable public question: IQuestion = {
+    @observable public question: Readonly<IQuestion> = {
         index: -1,
         prompt: "",
         choices: [],
-        correctChoice: -1,
     };
+    @observable public questionAnswerIndex: number = -1;
 
     constructor(private rootStore: RootStore, private client: TriviaAPIClient) {
     }
@@ -40,8 +40,8 @@ export class TriviaStore {
             index: -1,
             prompt: "",
             choices: [],
-            correctChoice: -1,
         };
+        this.questionAnswerIndex = -1;
     }
 
     @action
@@ -72,10 +72,12 @@ export class TriviaStore {
 
             case IncomingMessageTag.SetPrompt: {
                 const {payload} = message;
-                this.question.index = payload.index;
-                this.question.prompt = payload.prompt;
-                this.question.choices = payload.choices;
-                this.question.correctChoice = -1;
+                this.question = {
+                    index: payload.index,
+                    prompt: payload.prompt,
+                    choices: payload.choices,
+                };
+                this.questionAnswerIndex = -1;
 
                 this.questionCountdownOn = false;
                 this.questionCountdownMillis = 0;
@@ -140,7 +142,4 @@ export interface IQuestion {
     index: number;
     prompt: string;
     choices: string[];
-
-    /** The index of the correct choice. -1 if the client doesn't know the correct answer yet. */
-    correctChoice: number;
 }

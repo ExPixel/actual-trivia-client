@@ -1,0 +1,32 @@
+@import "~gsass/vars";
+
+.prompt {
+    font-size: $font-size-xl;
+    padding: 8px;
+    white-space: pre-wrap; // sometimes prompts have line breaks
+}
+
+.choice-list {
+}
+
+.choice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    font-size: $font-size-lg;
+    padding: 8px;
+}
+
+.choice-label {
+    color: $oc-gray-0;
+    padding: 8px;
+    border-radius: 3px;
+    margin-right: 16px;
+}
+
+.choice-text {
+}
+
+.choice.correct {
+}

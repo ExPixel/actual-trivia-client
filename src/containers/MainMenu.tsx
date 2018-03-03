@@ -29,6 +29,7 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
         // autojoin that automatically puts you into a room and then maybe changes the link that
         // is in the URL or something. I'll have to find someway to change the url in react router
         // somehow without actually causing a rerender.
+        alert("This feature is not yet implemented.");
     }
 
     private actionFindLobby() {
@@ -36,12 +37,19 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
         this.props.history.push("/game/test");
     }
 
+    private actionSubmitQuestions() {
+        // #TODO not yet implemented
+        alert("This feature is not yet implemented.");
+    }
+
     private actionSettings() {
         // #TODO not yet implemented.
+        alert("This feature is not yet implemented.");
     }
 
     private actionLogOut() {
         // #TODO not yet implemented.
+        alert("This feature is not yet implemented.");
     }
 
     public render() {
@@ -54,6 +62,7 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
                 <div className={styles.itemList}>
                     <MenuItem onClick={this.actionJoinGame} title="Join Game" description="Quickly join a lobby for a game of actual trivia." />
                     <MenuItem onClick={this.actionFindLobby} title="Find Lobby" description="Search a list of lobbies for a game of actual trivia to join." />
+                    <MenuItem onClick={this.actionSubmitQuestions} title="Submit Questions" description="Submit your own questions to be added to our database." />
                     <MenuItem onClick={this.actionSettings} title="Settings" description="Tailor your trivia experience to your tastes." />
                     <MenuItem onClick={this.actionLogOut} title="Log Out" description="Hop on your smurf account and start racking up easy rares." />
                 </div>
