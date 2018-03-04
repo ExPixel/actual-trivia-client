@@ -1,6 +1,6 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
-import { match } from "react-router";
+import { match, Redirect } from "react-router";
 import { observer } from "mobx-react";
 import { shouldComponentUpdateRoute } from "../util";
 import { getRootStore } from "../store";
@@ -46,7 +46,10 @@ export class TriviaGameScreen extends React.Component<ITriviaGameScreenProps, {}
             default: throw new Error("unreachable trivia mode: " + this.triviaStore.currentMode);
         }
 
+        const redirect = this.triviaStore.gameId !== null && this.triviaStore.gameId !== this.props.match.params.gameId && this.props.match.params.gameId === "quickjoin";
+
         return <div>
+            { redirect && <Redirect to={"/game/" + this.triviaStore.gameId} /> }
             {mainContent}
         </div>;
     }

@@ -8,10 +8,14 @@ export enum IncomingMessageTag {
 
     QuestionCountdownTick = "q-countdown-tick",
     SetPrompt = "q-set-prompt",
+    RevealAnswer = "q-reveal-answer",
 }
 
 export interface IClientInfoRequest {
     tag: IncomingMessageTag.ClientInfoRequest;
+    payload: {
+        gameID: string;
+    };
 }
 
 export interface IGameNotFound {
@@ -53,7 +57,15 @@ export interface IQuestionCountdownTick {
     };
 }
 
+export interface IRevealAnswer {
+    tag: IncomingMessageTag.RevealAnswer;
+    payload: {
+        questionIndex: number;
+        answerIndex: number;
+    };
+}
+
 export type IncomingMessage =
     IClientInfoRequest | IGameNotFound | IUserNotFound |
     IGameStartCountdownTick | IGameStart |
-    ISetPrompt | IQuestionCountdownTick;
+    ISetPrompt | IQuestionCountdownTick | IRevealAnswer;

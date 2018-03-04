@@ -3,7 +3,7 @@ import { TriviaGameSocket } from "../socket";
 import { action, observable } from "mobx";
 import { TriviaAPIClient } from "../api";
 import { IncomingMessage, IncomingMessageTag } from "../socket/incoming";
-import { msgClientAuth } from "../socket/outgoing";
+import { msgClientAuth, msgSelectAnswer, IOutgoingMessage } from "../socket/outgoing";
 
 export class TriviaStore {
     private socket: TriviaGameSocket | null = null;
@@ -26,6 +26,7 @@ export class TriviaStore {
         choices: [],
     };
     @observable public questionAnswerIndex: number = -1;
+    @observable public selectedAnswerIndex: number = -1;
 
     constructor(private rootStore: RootStore, private client: TriviaAPIClient) {
     }
@@ -42,6 +43,15 @@ export class TriviaStore {
             choices: [],
         };
         this.questionAnswerIndex = -1;
+        this.selectedAnswerIndex = -1;
+    }
+
+    private send(msg: IOutgoingMessage) {
+        if (this.socket) {
+            this.socket.send(msg);
+        } else {
+            console.error("attempted to send message through closed socket: ", msg);
+        }
     }
 
     @action
@@ -78,6 +88,7 @@ export class TriviaStore {
                     choices: payload.choices,
                 };
                 this.questionAnswerIndex = -1;
+                this.selectedAnswerIndex = -1;
 
                 this.questionCountdownOn = false;
                 this.questionCountdownMillis = 0;
@@ -93,10 +104,32 @@ export class TriviaStore {
             case IncomingMessageTag.ClientInfoRequest: {
                 const authInfo = this.rootStore.userStore.authInfo;
                 if (authInfo) {
-                    this.socket!.send(msgClientAuth(authInfo.authToken));
+                    this.send(msgClientAuth(authInfo.authToken));
+                }
+                this.gameId = message.payload.gameID;
+                break;
+            }
+
+            case IncomingMessageTag.RevealAnswer: {
+                if (message.payload.questionIndex === this.question.index) {
+                    this.questionAnswerIndex = message.payload.answerIndex;
                 }
                 break;
             }
+
+            default:
+                console.warn("unhandled socket message: ", message);
+                break;
+        }
+    }
+
+    @action
+    public selectAnswer(index: number) {
+        // makes sure that there is a valid question on the screen first, that the index is in choice bounds,
+        // and that there isn't already a selected answer.
+        if (this.question.index >= 0 && index < this.question.choices.length && this.selectedAnswerIndex < 0 && this.questionAnswerIndex < 0) {
+            this.selectedAnswerIndex = index;
+            this.send(msgSelectAnswer(this.selectedAnswerIndex, this.question.index));
         }
     }
 
@@ -116,7 +149,10 @@ export class TriviaStore {
         console.log("connecting to socket: ", websocketUrl);
         this.socket = new TriviaGameSocket(websocketUrl);
         this.socket.once("open", () => console.log("socket opened."));
-        this.socket.once("close", () => console.log("socket closed."));
+        this.socket.once("close", () => {
+            console.log("socket closed.");
+            this.socket = null;
+        });
         this.socket.on("error", (event: Event) => console.error("error occurred in websocket: ", event));
         this.socket.on("message", (msg: IncomingMessage) => this.messageReceived(msg));
         this.socket.connect();
@@ -124,10 +160,12 @@ export class TriviaStore {
 
     @action
     public disconnectFromGame() {
+        console.log("called disconnect.");
         if (this.socket) {
             this.socket.close();
             this.socket = null;
         }
+        this.gameId = null;
         this.connecting = false;
     }
 }

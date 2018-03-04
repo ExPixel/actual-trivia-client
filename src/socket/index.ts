@@ -55,7 +55,6 @@ export class TriviaGameSocket {
                 const msg = JSON.parse(event.data);
                 if (msg && typeof msg.tag === "string") {
                     const incoming = msg as IncomingMessage;
-                    console.log("received message: ", incoming); // #TODO remove debug code
                     this.events.push("message", incoming);
                 }
             } catch (e) {

@@ -4,18 +4,27 @@
     font-size: $font-size-xl;
     padding: 8px;
     white-space: pre-wrap; // sometimes prompts have line breaks
+    user-select: none;
 }
 
-.choice-list {
-}
+// .choice-list {
+// }
 
 .choice {
     display: flex;
     flex-direction: row;
     align-items: center;
 
+    border-radius: 3px;
     font-size: $font-size-lg;
     padding: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color .2s ease;
+
+    &:hover {
+        background-color: rgba($oc-gray-0, 0.1);
+    }
 }
 
 .choice-label {
@@ -25,8 +34,34 @@
     margin-right: 16px;
 }
 
-.choice-text {
-}
+// .choice-text {
+// }
 
 .choice.correct {
+    background-color: rgba($oc-green-5, 0.35);
+
+    &.selected {
+        background-color: rgba($oc-green-5, 0.45);
+        &:hover {
+            background-color: rgba($oc-green-5, 0.55);
+        }
+    }
+}
+
+.choice.incorrect {
+    // background-color: rgba($oc-red-5, 0.35);
+
+    &.selected {
+        background-color: rgba($oc-red-5, 0.45);
+        &:hover {
+            background-color: rgba($oc-red-5, 0.55);
+        }
+    }
+}
+
+.choice.selected{
+    background-color: rgba($oc-gray-0, 0.25);
+    &:hover {
+        background-color: rgba($oc-gray-0, 0.35);
+    }
 }

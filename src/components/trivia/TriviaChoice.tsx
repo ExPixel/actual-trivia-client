@@ -20,21 +20,35 @@ export interface IProps {
     text: string;
     correct: boolean | undefined | null;
     selected: boolean;
+    onClick?: (index: number) => any;
 }
 
 class TriviaChoice extends React.PureComponent<IProps, {}> {
+    constructor(props: IProps) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    private onClick() {
+        if (this.props.onClick) {
+            this.props.onClick(this.props.index);
+        }
+    }
+
     public render() {
         const correct = this.props.correct;
         const classes = mixClasses({
             [styles.choice]: true,
             [styles.correct]: (typeof correct === "boolean") && !!correct,
+            [styles.incorrect]: (typeof correct === "boolean") && !correct,
+            [styles.selected]: this.props.selected,
         });
 
         const label = this.props.index < 26 ? String.fromCharCode(65 + this.props.index) : "?";
         const labelBGColor = LABEL_COLORS[this.props.index % LABEL_COLORS.length];
         const labelStyle: React.CSSProperties = { backgroundColor: labelBGColor };
 
-        return <div className={classes}>
+        return <div onClick={this.onClick} className={classes}>
             <span style={labelStyle} className={styles.choiceLabel}>{label}</span>
             <span className={styles.choiceText}>{this.props.text}</span>
         </div>;

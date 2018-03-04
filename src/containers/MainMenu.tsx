@@ -25,16 +25,12 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
     }
 
     private actionJoinGame() {
-        // #TODO IDEA: this should just autimatically send you to a special game room called
-        // autojoin that automatically puts you into a room and then maybe changes the link that
-        // is in the URL or something. I'll have to find someway to change the url in react router
-        // somehow without actually causing a rerender.
-        alert("This feature is not yet implemented.");
+        this.props.history.push("/game/quickjoin");
     }
 
     private actionFindLobby() {
         // #TODO remove this test code once I have a way to actually create lobbies.
-        this.props.history.push("/game/test");
+        alert("This feature is not yet implemented.");
     }
 
     private actionSubmitQuestions() {
