@@ -3,6 +3,7 @@ import ReactDOM = require("react-dom");
 import MenuItem from "../components/menu-item/MenuItem";
 import styles = require("./styles/main-menu.scss");
 import { RouteComponentProps } from "react-router";
+import Branding from "../components/Branding";
 
 export interface IMainMenuProps {
     history: RouteComponentProps<any>["history"];
@@ -52,7 +53,7 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
         return <div className={styles.mainMenu}>
             <div className={styles.mainMenuHeader}>
                 {/* #TODO replace this with something cooler lookin' */}
-                Actual Trivia
+                <Branding />
             </div>
             <div className={styles.mainMenuBody}>
                 <div className={styles.itemList}>

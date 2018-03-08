@@ -9,6 +9,8 @@ import TriviaLobbyScreen from "./TriviaLobbyScreen";
 import TriviaPrompt from "../components/trivia/TriviaPrompt";
 import TriviaPromptScreen from "./TriviaPromptScreen";
 import TriviaResultsScreen from "./TriviaResultsScreen";
+import Flex from "../components/flex/Flex";
+import Branding from "../components/Branding";
 
 export interface ITriviaGameScreenProps {
     match: match<{ gameId: string; }>;
@@ -50,7 +52,10 @@ export class TriviaGameScreen extends React.Component<ITriviaGameScreenProps, {}
 
         return <div>
             { redirect && <Redirect to={"/game/" + this.triviaStore.gameId} /> }
-            {mainContent}
+            <Flex column style={{margin: "32px 16px"}}>
+                <Branding style={{alignSelf: "center", marginBottom: "32px"}} />
+                {mainContent}
+            </Flex>
         </div>;
     }
 }

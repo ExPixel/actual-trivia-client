@@ -4,6 +4,7 @@ import { action, observable } from "mobx";
 import { TriviaAPIClient } from "../api";
 import { IncomingMessage, IncomingMessageTag } from "../socket/incoming";
 import { msgClientAuth, msgSelectAnswer, IOutgoingMessage } from "../socket/outgoing";
+import { IParticipant } from "./models";
 
 export class TriviaStore {
     private socket: TriviaGameSocket | null = null;
@@ -28,6 +29,8 @@ export class TriviaStore {
     @observable public questionAnswerIndex: number = -1;
     @observable public selectedAnswerIndex: number = -1;
 
+    @observable public participants: IParticipant[] = [];
+
     constructor(private rootStore: RootStore, private client: TriviaAPIClient) {
     }
 
@@ -44,6 +47,7 @@ export class TriviaStore {
         };
         this.questionAnswerIndex = -1;
         this.selectedAnswerIndex = -1;
+        this.participants = [];
     }
 
     private send(msg: IOutgoingMessage) {
@@ -113,6 +117,42 @@ export class TriviaStore {
             case IncomingMessageTag.RevealAnswer: {
                 if (message.payload.questionIndex === this.question.index) {
                     this.questionAnswerIndex = message.payload.answerIndex;
+                }
+                break;
+            }
+
+            case IncomingMessageTag.ParticipantsList: {
+                this.participants = message.payload.participants;
+                break;
+            }
+
+            case IncomingMessageTag.AddParticipant: {
+                this.participants.push(message.payload.participant);
+                break;
+            }
+
+            case IncomingMessageTag.RemoveParticipant: {
+                const index = this.participants.findIndex((p) =>
+                    p.username === message.payload.participant.username);
+                if (index >= 0) {
+                    this.participants.splice(index, 1);
+                }
+                break;
+            }
+
+            case IncomingMessageTag.SetParticipant: {
+                const index = this.participants.findIndex((p) =>
+                    p.username === message.payload.participant.username);
+                if (index >= 0) {
+                    const p = this.participants[index];
+                    this.participants.splice(index, 1, Object.assign({}, p, message.payload.participant));
+                }
+                break;
+            }
+
+            case IncomingMessageTag.Multi: {
+                for (const msg of message.payload.messages) {
+                    this.messageReceived(msg);
                 }
                 break;
             }

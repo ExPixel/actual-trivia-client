@@ -46,7 +46,6 @@ export class TriviaGameSocket {
 
         const msgString = JSON.stringify(message);
         this.ws.send(msgString);
-        console.log("sent message: ", message); // #TODO remove debug code
     }
 
     private onMessage(event: MessageEvent) {

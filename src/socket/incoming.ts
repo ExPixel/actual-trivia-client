@@ -1,3 +1,5 @@
+import { IParticipant } from "../store/models";
+
 export enum IncomingMessageTag {
     GameNotFound = "game-not-found",
     ClientInfoRequest = "client-info-request",
@@ -9,6 +11,13 @@ export enum IncomingMessageTag {
     QuestionCountdownTick = "q-countdown-tick",
     SetPrompt = "q-set-prompt",
     RevealAnswer = "q-reveal-answer",
+
+    AddParticipant = "p-list-add",
+    RemoveParticipant = "p-list-remove",
+    SetParticipant = "p-list-set",
+    ParticipantsList = "p-list-full",
+
+    Multi = "multi",
 }
 
 export interface IClientInfoRequest {
@@ -65,7 +74,44 @@ export interface IRevealAnswer {
     };
 }
 
+export interface IParticipantsList {
+    tag: IncomingMessageTag.ParticipantsList;
+    payload: {
+        participants: IParticipant[];
+    };
+}
+
+export interface IAddParticipant {
+    tag: IncomingMessageTag.AddParticipant;
+    payload: {
+        participant: IParticipant;
+    };
+}
+
+export interface IRemoveParticipant {
+    tag: IncomingMessageTag.RemoveParticipant;
+    payload: {
+        participant: IParticipant;
+    };
+}
+
+export interface ISetParticipant {
+    tag: IncomingMessageTag.SetParticipant;
+    payload: {
+        participant: IParticipant;
+    };
+}
+
+export interface IMulti {
+    tag: IncomingMessageTag.Multi;
+    payload: {
+        messages: IncomingMessage[];
+    };
+}
+
 export type IncomingMessage =
     IClientInfoRequest | IGameNotFound | IUserNotFound |
     IGameStartCountdownTick | IGameStart |
-    ISetPrompt | IQuestionCountdownTick | IRevealAnswer;
+    ISetPrompt | IQuestionCountdownTick | IRevealAnswer |
+    IParticipantsList | IAddParticipant | IRemoveParticipant | ISetParticipant |
+    IMulti;

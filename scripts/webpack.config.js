@@ -126,6 +126,19 @@ module.exports = {
                         }
                     ]
                 })
+            },
+
+            {
+                test: /\.(png|jp(e*)g|svg)$/,
+                use: [{
+                    loader: "file-loader",
+                    options: {
+                        name: (file) => (inDevMode ? "[path][name].[ext]" : "[path][hash].[ext]"),
+                        context: rel.src("static"),
+                        publicPath: "/static/",
+                        outputPath: "static/",
+                    }
+                }]
             }
         ]
     },
