@@ -33,12 +33,13 @@ export class Countdown extends React.Component<IProps, IState> {
 
     public componentWillReceiveProps(nextProps: Readonly<IProps>) {
         if (this.props.timeRemaining !== nextProps.timeRemaining || this.props.active !== nextProps.active) {
-            if (nextProps.active) {
+            if (typeof nextProps.active === "undefined" || !!nextProps.active) {
                 this.setState({ countdownDelta: 0, countdownStart: Date.now() });
                 if (this.state.countdownInterval === null) {
                     this.startInterval();
                 }
             } else {
+                console.log("calling stopAnimating: ", nextProps.active);
                 this.stopAnimating();
                 this.stopInterval();
             }
