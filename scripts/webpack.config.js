@@ -164,7 +164,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html',
-            filename: rel.build("index.html")
+            filename: rel.build("index.html"),
+            hash: inProdMode,
+            minify: false,
+            extra: {
+                reactURL: inDevMode ? "https://unpkg.com/react@16/umd/react.development.js" : "https://unpkg.com/react@16/umd/react.production.min.js",
+                reactDOMUrl: inDevMode ? "https://unpkg.com/react-dom@16/umd/react-dom.development.js" : "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
+            }
         }),
         new webpack.DefinePlugin(defs.current),
         extractCSS
