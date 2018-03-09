@@ -15,6 +15,8 @@ export interface IFlexProps {
 
     style?: React.CSSProperties;
     className?: string;
+
+    tag?: string;
 }
 
 class Flex extends React.PureComponent<IFlexProps, {}> {
@@ -28,9 +30,10 @@ class Flex extends React.PureComponent<IFlexProps, {}> {
         if (this.props.alignContent) { flexStyle.alignContent = this.props.alignContent; }
         if (this.props.justifyContent) { flexStyle.justifyContent = this.props.justifyContent; }
 
-        return <div className={this.props.className} style={flexStyle}>
+        const FlexElement = this.props.tag || "div";
+        return <FlexElement className={this.props.className} style={flexStyle}>
             {this.props.children}
-        </div>;
+        </FlexElement>;
     }
 }
 
