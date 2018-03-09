@@ -12,9 +12,24 @@ export class TriviaAuthAPI {
         });
     }
 
+    public async signup(username: string, email: string, password: string): Promise<IAPIResp<ITriviaSignupResponse>> {
+        return this.client.request<ITriviaSignupResponse>("POST", "/auth/signup", {
+            body: {
+                username: username,
+                email: email,
+                password: password,
+            },
+        });
+    }
+
     public async loginAsGuest(): Promise<IAPIResp<ITriviaLoginResponse>> {
         return this.client.request<ITriviaLoginResponse>("POST", "/auth/guest");
     }
+}
+
+export interface ITriviaSignupResponse {
+    userID: number;
+    username: string;
 }
 
 export interface ITriviaLoginResponse {

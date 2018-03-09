@@ -4,12 +4,20 @@ import MenuItem from "../components/menu-item/MenuItem";
 import styles = require("./styles/main-menu.scss");
 import { RouteComponentProps } from "react-router";
 import Branding from "../components/Branding";
+import { getRootStore } from "../store";
 
 export interface IMainMenuProps {
     history: RouteComponentProps<any>["history"];
 }
 
-class MainMenu extends React.Component<IMainMenuProps, {}> {
+export interface IMainMenuState {
+    // #TODO right now this does nothing but it should stop the user from clicking any of the other menu items.
+    disableItems: boolean;
+}
+
+class MainMenu extends React.Component<IMainMenuProps, IMainMenuState> {
+    private userStore = getRootStore().userStore;
+
     constructor(props: IMainMenuProps) {
         super(props);
         this.actionJoinGame = this.actionJoinGame.bind(this);
@@ -44,9 +52,12 @@ class MainMenu extends React.Component<IMainMenuProps, {}> {
         alert("This feature is not yet implemented.");
     }
 
-    private actionLogOut() {
-        // #TODO not yet implemented.
-        alert("This feature is not yet implemented.");
+    private async actionLogOut() {
+        this.setState({ disableItems: true });
+        const result = await this.userStore.logout();
+        if (!result) {
+            console.warn("Logout request was unsuccessful.");
+        }
     }
 
     public render() {

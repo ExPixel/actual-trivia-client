@@ -12,6 +12,7 @@ import { Redirect } from "react-router";
 import { observer } from "mobx-react";
 import { observe } from "mobx";
 import TriviaGameScreen from "./TriviaGameScreen";
+import RegisterPage from "./RegisterPage";
 
 @observer
 class App extends React.Component<{}, {}> {
@@ -50,10 +51,17 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/" render={() => {
                 return <Redirect to={ this.userStore.loggedIn ? "/menu" : "/login" } />;
             }} />
+
             <Route exact={true} path="/login" render={(props) => (
                 this.userStore.loggedIn ?
                     <Redirect to="/menu" /> :
                     <LoginPage />
+            )} />
+
+            <Route exact={true} path="/signup" render={(props) => (
+                this.userStore.loggedIn ?
+                    <Redirect to="/menu" /> :
+                    <RegisterPage />
             )} />
 
             <AuthRoute exact={true} path="/menu" component={MainMenu} />
