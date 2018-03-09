@@ -3,6 +3,9 @@ import ReactDOM = require("react-dom");
 import { getRootStore } from "../store";
 import { Countdown } from "../components/countdown/Countdown";
 import { observer } from "mobx-react";
+import TriviaParticipantList from "../components/trivia/TriviaParticipantList";
+import Flex from "../components/flex/Flex";
+import TriviaCountdownHeader from "../components/trivia/TriviaCountdownHeader";
 
 export interface IState {
     countingDown: false;
@@ -16,11 +19,23 @@ class TriviaLobbyScreen extends React.Component<{}, IState> {
     private triviaStore = getRootStore().triviaStore;
 
     public render() {
+        let gameStartingHeader: JSX.Element | null = null;
+        if (this.triviaStore.gameStartCountdownOn) {
+            gameStartingHeader = (
+                <TriviaCountdownHeader
+                    label="Starting Game..."
+                    countdownOn={true}
+                    millisRemaining={this.triviaStore.gameStartCountdownMillis} />
+            );
+        }
+
         return <div>
-            TriviaLobbyScreen
-            { this.triviaStore.gameStartCountdownOn &&
-                <Countdown timeRemaining={this.triviaStore.gameStartCountdownMillis} />
-            }
+            <Flex row>
+                <Flex column style={{flex: "1"}}>
+                    {gameStartingHeader}
+                </Flex>
+                <TriviaParticipantList participants={this.triviaStore.participants} />
+            </Flex>
         </div>;
     }
 }

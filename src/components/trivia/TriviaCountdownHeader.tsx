@@ -5,18 +5,16 @@ import { Countdown } from "../countdown/Countdown";
 import styles = require("./trivia.scss");
 
 export interface IProps {
-    questionIndex: number;
-    questionCount: number;
+    label: string;
     countdownOn: boolean;
     millisRemaining: number;
 }
 
-// #TODO replace usage of this with TriviaCountdownHeader
-const TriviaPromptHeader = (props: IProps) => (
+const TriviaCountdownHeader = (props: IProps) => (
     <Flex className={styles.promptHeader} row alignItems="center">
         <Countdown active={props.countdownOn} timeRemaining={props.millisRemaining} />
-        <div className={styles.promptHeaderLabel}>Question {props.questionIndex + 1}/{props.questionCount}</div>
+        <div className={styles.promptHeaderLabel}>{props.label}</div>
     </Flex>
 );
 
-export default TriviaPromptHeader;
+export default TriviaCountdownHeader;
