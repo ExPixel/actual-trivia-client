@@ -1,5 +1,6 @@
 import Button from "material-ui/Button";
 import Card, { CardActions, CardContent, CardMedia } from "material-ui/Card";
+import { CircularProgress } from "material-ui/Progress";
 import TextField from "material-ui/TextField";
 import Typography from "material-ui/Typography";
 import React = require("react");
@@ -87,8 +88,29 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
                                 value={this.state.password} />
 
                             <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
-                                <Button style={{ marginRight: "8px" }} onClick={this.loginUserAsGuest}>Login As Guest</Button>
-                                <Button color="primary" variant="raised" onClick={this.loginUser}>Login</Button>
+                                {
+                                    this.userStore.loggingIn ? (
+                                        <Button disabled
+                                            style={{ marginRight: "8px" }}
+                                            onClick={this.loginUserAsGuest}>Login As Guest</Button>
+                                    ) : (
+                                        <Button style={{ marginRight: "8px" }}
+                                            onClick={this.loginUserAsGuest}>Login As Guest</Button>
+                                    )
+                                }
+
+                                {
+                                    this.userStore.loggingIn ? (
+                                        <Button disabled color="primary" variant="raised" onClick={this.loginUser}>
+                                            <CircularProgress size={"1em"} color="secondary" />
+                                            &nbsp;Login
+                                        </Button>
+                                    ) : (
+                                        <Button color="primary" variant="raised" onClick={this.loginUser}>
+                                            Login
+                                        </Button>
+                                    )
+                                }
                             </Flex>
 
                             <Typography style={{ marginTop: "32px" }} component="div">
