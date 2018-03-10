@@ -132,21 +132,14 @@ export class TriviaStore {
             }
 
             case IncomingMessageTag.RemoveParticipant: {
-                const index = this.participants.findIndex((p) =>
-                    p.username === message.payload.participant.username);
-                if (index >= 0) {
-                    this.participants.splice(index, 1);
-                }
+                this.participants = this.participants.filter((p) => p.username !== message.payload.participant.username);
                 break;
             }
 
             case IncomingMessageTag.SetParticipant: {
-                const index = this.participants.findIndex((p) =>
-                    p.username === message.payload.participant.username);
-                if (index >= 0) {
-                    const p = this.participants[index];
-                    this.participants.splice(index, 1, Object.assign({}, p, message.payload.participant));
-                }
+                const u = message.payload.participant.username;
+                this.participants = this.participants.map((p) =>
+                    p.username === u ? Object.assign({}, p, message.payload.participant) : p);
                 break;
             }
 
