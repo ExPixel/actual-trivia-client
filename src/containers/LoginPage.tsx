@@ -29,6 +29,7 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
         super(props);
 
         this.loginUser = this.loginUser.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.loginUserAsGuest = this.loginUserAsGuest.bind(this);
@@ -58,6 +59,11 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
         this.setState({ password: e.target.value });
     }
 
+    private onFormSubmit(e: React.UIEvent<HTMLFormElement>) {
+        e.preventDefault();
+        this.loginUser();
+    }
+
     // @observer overrides this unless I have this here
     // and I need this to always return true if I want this thing
     // to interact with react router correctly.
@@ -74,7 +80,7 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
                     </Typography>
 
                     <Typography component="div">
-                        <Flex column alignItems="stretch">
+                        <form onSubmit={this.onFormSubmit} style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>
                             <TextField
                                 style={{ marginTop: "8px" }}
                                 label="Username / Email"
@@ -101,12 +107,12 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
 
                                 {
                                     this.userStore.loggingIn ? (
-                                        <Button disabled color="primary" variant="raised" onClick={this.loginUser}>
+                                        <Button disabled type="submit" color="primary" variant="raised">
                                             <CircularProgress size={"1em"} color="secondary" />
                                             &nbsp;Login
                                         </Button>
                                     ) : (
-                                        <Button color="primary" variant="raised" onClick={this.loginUser}>
+                                        <Button type="submit" color="primary" variant="raised">
                                             Login
                                         </Button>
                                     )
@@ -116,7 +122,7 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
                             <Typography style={{ marginTop: "32px" }} component="div">
                                 <Link to="/signup">Don't have an account? Sign up.</Link>
                             </Typography>
-                        </Flex>
+                        </form>
                     </Typography>
                 </CardContent>
             </Card>

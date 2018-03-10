@@ -95,7 +95,7 @@ class RegisterPage extends React.Component<{}, IState> {
 
         if (!state.email.trim().match(EMAIL_REGEX)) {
             err = false;
-            errors.email = "Must provide a valid email address (login as a guest ¯\\_(ツ)_/¯).";
+            errors.email = "Must provide a valid email address (or login as a guest ¯\\_(ツ)_/¯).";
         }
 
         this.setState({errors});
@@ -111,8 +111,8 @@ class RegisterPage extends React.Component<{}, IState> {
     }
 
     private onFormSubmit(e: React.UIEvent<HTMLFormElement>) {
-        console.log("on submit: ", e.target);
-        // #TODO implement this
+        e.preventDefault();
+        this.signupUser();
     }
 
     private onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -183,12 +183,12 @@ class RegisterPage extends React.Component<{}, IState> {
                             <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
                                 {
                                     this.userStore.signingUp ? (
-                                        <Button disabled color="primary" variant="raised" onClick={this.signupUser}>
+                                        <Button type="submit" disabled color="primary" variant="raised">
                                             <CircularProgress size={"1em"} color="secondary" />
                                             &nbsp;Sign Up
                                         </Button>
                                     ) : (
-                                        <Button color="primary" variant="raised" onClick={this.signupUser}>Sign Up</Button>
+                                        <Button type="submit" color="primary" variant="raised">Sign Up</Button>
                                     )
                                 }
                             </Flex>
