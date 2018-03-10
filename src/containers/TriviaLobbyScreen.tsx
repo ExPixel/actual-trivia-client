@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 import TriviaParticipantList from "../components/trivia/TriviaParticipantList";
 import Flex from "../components/flex/Flex";
 import TriviaCountdownHeader from "../components/trivia/TriviaCountdownHeader";
+import TriviaGameOptions from "./TriviaGameOptions";
 
 export interface IState {
     countingDown: false;
@@ -33,6 +34,7 @@ class TriviaLobbyScreen extends React.Component<{}, IState> {
             <Flex row>
                 <Flex column style={{flex: "1"}}>
                     {gameStartingHeader}
+                    <TriviaGameOptions />
                 </Flex>
                 <TriviaParticipantList participants={this.triviaStore.participants} />
             </Flex>
