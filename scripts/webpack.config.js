@@ -32,6 +32,9 @@ const defs = {
 };
 defs.current = Object.assign(defs.current, defs.common, inDevMode ? defs.dev : defs.prod);
 
+const emotionPlugin = inDevMode ?
+    (["emotion", { "sourceMap": true, "autoLabel": true }]) :
+    (["emotion", { "hoist": true }]);
 const babelOptions = {
     presets: [
         "@babel/preset-react",
@@ -47,7 +50,11 @@ const babelOptions = {
     // #FIXME this causes a lot of errors on build, not sure why.
     // usually I need this thing but now it's suddenly a problem.
     // plugins: ["@babel/plugin-transform-runtime"],
-    plugins: ["transform-decorators-legacy", "react-hot-loader/babel"]
+    plugins: [
+        "transform-decorators-legacy",
+        "react-hot-loader/babel",
+        emotionPlugin
+    ]
 };
 
 // if (inProdMode) {

@@ -1,7 +1,3 @@
-import Button from "material-ui/Button";
-import Card, { CardActions, CardContent, CardMedia } from "material-ui/Card";
-import TextField from "material-ui/TextField";
-import Typography from "material-ui/Typography";
 import React = require("react");
 import ReacDOM = require("react-dom");
 import { Link, withRouter } from "react-router-dom";
@@ -10,7 +6,9 @@ import styles = require("./styles/login.scss");
 import { observer, inject } from "mobx-react";
 import { getRootStore } from "../store";
 import { IRouteLocation } from "../util";
-import { CircularProgress } from "material-ui/Progress";
+import Typography from "../components/basic/Typography";
+import TextField from "../components/basic/TextField";
+import Button from "../components/basic/Button";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_\\-\\.\\<\\>]+$");
 const EMAIL_REGEX = new RegExp("^[^@]+@[^@]+$");
@@ -136,70 +134,58 @@ class RegisterPage extends React.Component<{}, IState> {
     }
 
     public render() {
+        const signingUp = this.userStore.signingUp;
         return <div className={styles.container}>
-            <Card className={styles.card}>
-                <CardContent>
-                    <Typography style={{ marginBottom: "8px" }} variant="headline" component="h2">
-                        Signup for Actual Trivia
-                    </Typography>
+            <Typography style={{ marginBottom: "8px" }} component="h2">
+                Signup for Actual Trivia
+            </Typography>
 
-                    <Typography component="div">
-                        <form style={{ display: "flex", alignItems: "stretch", flexDirection: "column" }}
-                            onSubmit={this.onFormSubmit} >
-                            <TextField
-                                error = {!!this.state.errors.username}
-                                helperText={this.state.errors.username}
-                                style={{ marginTop: "8px" }}
-                                name="username"
-                                label="Username"
-                                onChange={this.onInputChange}
-                                value={this.state.username} />
-                            <TextField
-                                error = {!!this.state.errors.email}
-                                helperText={this.state.errors.email}
-                                style={{ marginTop: "8px" }}
-                                name="email"
-                                label="Email"
-                                onChange={this.onInputChange}
-                                value={this.state.email} />
-                            <TextField
-                                error = {!!this.state.errors.password}
-                                helperText={this.state.errors.password}
-                                style={{ marginTop: "8px" }}
-                                name="password"
-                                label="Password"
-                                type="password"
-                                onChange={this.onInputChange}
-                                value={this.state.password} />
-                            <TextField
-                                error = {!!this.state.errors.password2}
-                                helperText={this.state.errors.password2}
-                                style={{ marginTop: "8px" }}
-                                name="repassword"
-                                label="Re-Enter Password"
-                                type="password"
-                                onChange={this.onInputChange}
-                                value={this.state.password2} />
-                            <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
-                                {
-                                    this.userStore.signingUp ? (
-                                        <Button type="submit" disabled color="primary" variant="raised">
-                                            <CircularProgress size={"1em"} color="secondary" />
-                                            &nbsp;Sign Up
-                                        </Button>
-                                    ) : (
-                                        <Button type="submit" color="primary" variant="raised">Sign Up</Button>
-                                    )
-                                }
-                            </Flex>
+            <Typography component="div">
+                <form style={{ display: "flex", alignItems: "stretch", flexDirection: "column" }}
+                    onSubmit={this.onFormSubmit} >
+                    <TextField
+                        error = {!!this.state.errors.username}
+                        helperText={this.state.errors.username}
+                        style={{ marginTop: "8px" }}
+                        name="username"
+                        label="Username"
+                        onChange={this.onInputChange}
+                        value={this.state.username} />
+                    <TextField
+                        error = {!!this.state.errors.email}
+                        helperText={this.state.errors.email}
+                        style={{ marginTop: "8px" }}
+                        name="email"
+                        label="Email"
+                        onChange={this.onInputChange}
+                        value={this.state.email} />
+                    <TextField
+                        error = {!!this.state.errors.password}
+                        helperText={this.state.errors.password}
+                        style={{ marginTop: "8px" }}
+                        name="password"
+                        label="Password"
+                        type="password"
+                        onChange={this.onInputChange}
+                        value={this.state.password} />
+                    <TextField
+                        error = {!!this.state.errors.password2}
+                        helperText={this.state.errors.password2}
+                        style={{ marginTop: "8px" }}
+                        name="repassword"
+                        label="Re-Enter Password"
+                        type="password"
+                        onChange={this.onInputChange}
+                        value={this.state.password2} />
+                    <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
+                        <Button disabled={signingUp} loading={signingUp} type="submit" color="primary">Sign Up</Button>
+                    </Flex>
 
-                            <Typography style={{ marginTop: "32px" }} component="div">
-                                <Link to="/login">Already have an account? Log in.</Link>
-                            </Typography>
-                        </form>
+                    <Typography style={{ marginTop: "32px" }} component="div">
+                        <Link to="/login">Already have an account? Log in.</Link>
                     </Typography>
-                </CardContent>
-            </Card>
+                </form>
+            </Typography>
         </div>;
     }
 }

@@ -1,8 +1,3 @@
-import Button from "material-ui/Button";
-import Card, { CardActions, CardContent, CardMedia } from "material-ui/Card";
-import { CircularProgress } from "material-ui/Progress";
-import TextField from "material-ui/TextField";
-import Typography from "material-ui/Typography";
 import React = require("react");
 import ReacDOM = require("react-dom");
 import { Link, withRouter } from "react-router-dom";
@@ -11,6 +6,10 @@ import styles = require("./styles/login.scss");
 import { observer, inject } from "mobx-react";
 import { getRootStore } from "../store";
 import { IRouteLocation } from "../util";
+import Branding from "../components/Branding";
+import Typography from "../components/basic/Typography";
+import Button from "../components/basic/Button";
+import TextField from "../components/basic/TextField";
 
 export interface ILoginPageState {
     username: string;
@@ -72,60 +71,42 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
     }
 
     public render() {
+        const loggingIn = this.userStore.loggingIn;
         return <div className={styles.container}>
-            <Card className={styles.card}>
-                <CardContent>
-                    <Typography style={{ marginBottom: "8px" }} variant="headline" component="h2">
-                        Login to Actual Trivia
-                    </Typography>
+            <div className={styles.containerInner}>
+                <Branding width="100%" />
+                {/* <Typography style={{ marginBottom: "8px" }} variant="headline" component="h2">
+                    Login to Actual Trivia
+                </Typography> */}
 
-                    <Typography component="div">
-                        <form onSubmit={this.onFormSubmit} style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>
-                            <TextField
-                                style={{ marginTop: "8px" }}
-                                label="Username / Email"
-                                onChange={this.onUsernameChange}
-                                value={this.state.username} />
-                            <TextField
-                                style={{ marginTop: "8px" }}
-                                label="Password"
-                                type="password"
-                                onChange={this.onPasswordChange}
-                                value={this.state.password} />
+                <Typography component="div">
+                    <form onSubmit={this.onFormSubmit} style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>
+                        <TextField
+                            style={{ marginTop: "8px" }}
+                            label="Username / Email"
+                            onChange={this.onUsernameChange}
+                            value={this.state.username} />
+                        <TextField
+                            style={{ marginTop: "8px" }}
+                            label="Password"
+                            type="password"
+                            onChange={this.onPasswordChange}
+                            value={this.state.password} />
 
-                            <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
-                                {
-                                    this.userStore.loggingIn ? (
-                                        <Button disabled
-                                            style={{ marginRight: "8px" }}
-                                            onClick={this.loginUserAsGuest}>Login As Guest</Button>
-                                    ) : (
-                                        <Button style={{ marginRight: "8px" }}
-                                            onClick={this.loginUserAsGuest}>Login As Guest</Button>
-                                    )
-                                }
+                        <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
+                            <Button disabled={loggingIn} style={{ marginRight: "8px" }}
+                                onClick={this.loginUserAsGuest}>Login As Guest</Button>
+                            <Button disabled={loggingIn} loading={loggingIn} type="submit" color="primary">
+                                Login
+                            </Button>
+                        </Flex>
 
-                                {
-                                    this.userStore.loggingIn ? (
-                                        <Button disabled type="submit" color="primary" variant="raised">
-                                            <CircularProgress size={"1em"} color="secondary" />
-                                            &nbsp;Login
-                                        </Button>
-                                    ) : (
-                                        <Button type="submit" color="primary" variant="raised">
-                                            Login
-                                        </Button>
-                                    )
-                                }
-                            </Flex>
-
-                            <Typography style={{ marginTop: "32px" }} component="div">
-                                <Link to="/signup">Don't have an account? Sign up.</Link>
-                            </Typography>
-                        </form>
-                    </Typography>
-                </CardContent>
-            </Card>
+                        <Typography style={{ marginTop: "32px" }} component="div">
+                            <Link to="/signup">Don't have an account? Sign up.</Link>
+                        </Typography>
+                    </form>
+                </Typography>
+            </div>
         </div>;
     }
 }
