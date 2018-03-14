@@ -8,13 +8,8 @@
     top: 0;
 
     overflow-y: auto;
-}
 
-.bg-indigo {
-    background-color: $oc-gray-9;
-    color: $oc-gray-0;
-}
-
-.bg-indigo-gradient {
-    background: $oc-gray-9;
+    // Make these themeable:
+    background: $oc-gray-0;
+    color: $oc-gray-9;
 }

@@ -9,6 +9,8 @@ import { BrowserRouter } from "react-router-dom";
 import { API } from "./api";
 import App from "./containers/App";
 import { RootStore, setRootStore } from "./store";
+import { ThemeProvider } from "emotion-theming";
+import { LightTheme } from "./theme";
 
 mobx.useStrict(true);
 const store = new RootStore(API);
@@ -17,6 +19,8 @@ setRootStore(store);
 
 ReactDOM.render(
     <BrowserRouter>
-        <App />
+        <ThemeProvider theme={LightTheme}>
+            <App />
+        </ThemeProvider>
     </BrowserRouter>
     , document.getElementById("root"));

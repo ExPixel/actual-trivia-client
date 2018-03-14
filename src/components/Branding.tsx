@@ -15,7 +15,7 @@ const widthpx = (w: number | string) => typeof w === "string" ? w : w + "px";
 
 const Branding = ({width, style, black}: IProps) => (
     <img
-        src= {black ? bannerImageBlack : bannerImageWhite}
+        src= {black === undefined || !!black ? bannerImageBlack : bannerImageWhite}
         style= {
             Object.assign({ width: widthpx(width || DEFAULT_BRANDING_WIDTH) }, style)
         } />
