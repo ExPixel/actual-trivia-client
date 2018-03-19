@@ -22,13 +22,21 @@ export class UserStore {
     public async login(username: string, password: string): Promise<boolean> {
         this.authInfo = null;
         this.loggingIn = true;
-        const resp = await this.client.auth.login(username, password);
-        runInAction(() => {
-            this.authInfo = resp.success ? resp.data : null;
-            this.loggingIn = false;
-        });
-        this.saveAuthInfo();
-        return resp.success;
+        try {
+            const resp = await this.client.auth.login(username, password);
+            runInAction(() => {
+                this.authInfo = resp.success ? resp.data : null;
+                this.loggingIn = false;
+            });
+            this.saveAuthInfo();
+            return resp.success;
+        } catch (e) {
+            runInAction(() => {
+                this.loggingIn = false;
+            });
+            console.error("an error occurred while logging in: ", e);
+            return false;
+        }
     }
 
     @action
@@ -36,21 +44,44 @@ export class UserStore {
         this.authInfo = null;
         this.loggingIn = false;
         this.signingUp = true;
-        const resp = await this.client.auth.signup(username, email, password);
-        runInAction(() => {
-            this.signingUp = false;
-        });
 
-        return {
-            success: resp.success,
-            code: resp.code,
-            message: resp.success ? "" : resp.message,
-        };
+        try {
+            const resp = await this.client.auth.signup(username, email, password);
+            runInAction(() => {
+                this.signingUp = false;
+            });
+
+            return {
+                success: resp.success,
+                code: resp.code,
+                message: resp.success ? "" : resp.message,
+            };
+        } catch (e) {
+            runInAction(() => {
+                this.signingUp = false;
+            });
+
+            console.error("error occurred while signing up: ", e);
+            return {
+                success: false,
+                code: -1,
+                message: e + "",
+            };
+        }
     }
 
     @action
     public async logout(): Promise<boolean> {
-        // #TODO send something to a /logout endpoint on the server or something that invalidates the token.
+        if (this.authInfo && this.authInfo.authToken) {
+            try {
+                const resp = await this.client.auth.logout(this.authInfo.authToken);
+                if (resp.success && !resp.data) {
+                    console.warn("logout response successful, but resp.data = false");
+                }
+            } catch (e) {
+                console.error("error occurred while logging out: ", e);
+            }
+        }
         this.deleteAuthInfo();
         runInAction(() => {
             this.authInfo = null;

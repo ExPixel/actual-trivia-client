@@ -1,4 +1,4 @@
-import { IAPIResp, TriviaAPIClient } from ".";
+import { IAPIResp, TriviaAPIClient, IAPIErrorResp } from ".";
 
 export class TriviaAuthAPI {
     constructor(private client: TriviaAPIClient) {}
@@ -8,6 +8,14 @@ export class TriviaAuthAPI {
             body: {
                 username: username,
                 password: password,
+            },
+        });
+    }
+
+    public async logout(token: string): Promise<IAPIResp<boolean>> {
+        return this.client.request<boolean>("POST", "/auth/logout", {
+            body: {
+                token: token,
             },
         });
     }
