@@ -74,7 +74,7 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
         const loggingIn = this.userStore.loggingIn;
         return <div className={styles.container}>
             <div className={styles.containerInner}>
-                <Branding width="100%" />
+                <Branding width="224px" />
                 {/* <Typography style={{ marginBottom: "8px" }} variant="headline" component="h2">
                     Login to Actual Trivia
                 </Typography> */}
@@ -82,21 +82,25 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
                 <Typography component="div">
                     <form onSubmit={this.onFormSubmit} style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>
                         <TextField
-                            style={{ marginTop: "8px" }}
+                            style={{ marginTop: "4px" }}
                             label="Username / Email"
                             onChange={this.onUsernameChange}
                             value={this.state.username} />
                         <TextField
-                            style={{ marginTop: "8px" }}
+                            style={{ marginTop: "4px" }}
                             label="Password"
                             type="password"
                             onChange={this.onPasswordChange}
                             value={this.state.password} />
 
+                        {/* <Typography component="div" style={{marginTop: "16px"}}>
+                            This is some wrong shit, fam.
+                        </Typography> */}
+
                         <Flex style={{ marginTop: "32px" }} row justifyContent="flex-end">
-                            <Button disabled={loggingIn} style={{ marginRight: "8px" }}
+                            <Button type="button" disabled={loggingIn} style={{ marginRight: "8px" }}
                                 onClick={this.loginUserAsGuest}>Login As Guest</Button>
-                            <Button disabled={loggingIn} loading={loggingIn} type="submit" color="primary">
+                            <Button disabled={loggingIn} loading={loggingIn} type="submit" raised color="primary">
                                 Login
                             </Button>
                         </Flex>

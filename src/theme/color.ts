@@ -27,12 +27,12 @@ export function rgba(r: number, g: number, b: number, a: number = 1.0): string {
  * @param color The color to set the alpha component of.
  * @param value The new alpha component of the color.
  */
-export function alpha(color: string | number, alpha: number): string {
+export function alpha(color: string | number, alphaComponent: number): string {
     const c = parseColor(color);
     if (!c) {
         return "#000000";
     } else {
-        const out = rgba(c[0], c[1], c[2], alpha);
+        const out = rgba(c[0], c[1], c[2], alphaComponent);
         return out;
     }
 }

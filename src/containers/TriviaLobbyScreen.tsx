@@ -1,7 +1,7 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import { getRootStore } from "../store";
-import { Countdown } from "../components/countdown/Countdown";
+import Countdown from "../components/countdown/Countdown";
 import { observer } from "mobx-react";
 import TriviaParticipantList from "../components/trivia/TriviaParticipantList";
 import Flex from "../components/flex/Flex";
