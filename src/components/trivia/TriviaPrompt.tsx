@@ -1,20 +1,21 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import { IQuestion } from "../../store/trivia-store";
-import styles = require("./trivia.scss");
 import TriviaChoiceList from "./TriviaChoiceList";
+import styled from "../../theme/styled";
 
 export interface IProps {
     question: IQuestion;
     answerIndex: number;
     selectionIndex: number;
     onSelectChoice?: (index: number) => any;
+    className?: string;
 }
 
 class TriviaPrompt extends React.PureComponent<IProps, {}> {
     public render() {
-        return <div>
-            <div className={styles.prompt}>{this.props.question.prompt}</div>
+        return <div className={this.props.className}>
+            <div className="trivia-prompt">{this.props.question.prompt}</div>
             <TriviaChoiceList
                 onSelectChoice={this.props.onSelectChoice}
                 choices={this.props.question.choices}
@@ -24,4 +25,11 @@ class TriviaPrompt extends React.PureComponent<IProps, {}> {
     }
 }
 
-export default TriviaPrompt;
+export default styled(TriviaPrompt)`
+& .trivia-prompt {
+    font-size: ${({theme}) => theme.typography.fontSizeExtraLarge};
+    padding: 8px;
+    white-space: pre-wrap;
+    user-select: none;
+}
+`;

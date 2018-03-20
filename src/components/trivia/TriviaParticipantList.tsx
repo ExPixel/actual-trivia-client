@@ -3,9 +3,11 @@ import ReactDOM = require("react-dom");
 import styles = require("./trivia.scss");
 import { IParticipant } from "../../store/models";
 import TriviaParticipant from "./TriviaParticipant";
+import styled from "../../theme/styled";
 
 export interface IProps {
     participants: IParticipant[];
+    className?: string;
 }
 
 class TriviaParticipantList extends React.Component<IProps, {}> {
@@ -14,10 +16,12 @@ class TriviaParticipantList extends React.Component<IProps, {}> {
             <TriviaParticipant key={p.username} participant={p} />
         ));
 
-        return <div className={styles.participantsList}>
+        return <div className={this.props.className}>
             {participants}
         </div>;
     }
 }
 
-export default TriviaParticipantList;
+export default styled(TriviaParticipantList)`
+margin: 16px;
+`;
