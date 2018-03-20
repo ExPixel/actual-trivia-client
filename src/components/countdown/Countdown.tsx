@@ -1,6 +1,5 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
-import styles = require("./countdown.scss");
 import { mixClasses } from "../../util";
 import styled from "../../theme/styled";
 
