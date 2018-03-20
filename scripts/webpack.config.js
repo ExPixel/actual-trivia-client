@@ -202,5 +202,5 @@ module.exports = {
 
 if (inProdMode) {
     // #NOTE { removeUndefined: true } is there to fix this weird error: https://github.com/babel/minify/issues/790
-    // module.exports.plugins.push(new MinifyPlugin({ removeUndefined: false }, {}))
+    module.exports.plugins.push(new MinifyPlugin({ removeUndefined: false }, {}))
 }
