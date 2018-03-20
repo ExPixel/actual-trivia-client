@@ -46,6 +46,36 @@ export interface ITheme {
                 text: string;
             };
 
+            choice: {
+                text: string;
+                background: string;
+                backgroundHover: string;
+
+                correct: {
+                    text: string;
+                    background: string;
+                    backgroundHover: string;
+                };
+
+                incorrect: {
+                    text: string;
+                    background: string;
+                    backgroundHover: string;
+                };
+
+                selected: {
+                    text: string;
+                    background: string;
+                    backgroundHover: string;
+                };
+            };
+
+            participant: {
+                background: string;
+                backgroundHover: string;
+                text: string;
+            }
+
             countdown: {
                 background: string;
                 text: string;
@@ -116,6 +146,36 @@ export const LightTheme: ITheme = {
 
         trivia: {
             prompt: {
+                text: OpenColor.gray[9],
+            },
+
+            choice: {
+                text: OpenColor.gray[9],
+                background: "transparent",
+                backgroundHover: alpha(OpenColor.gray[5], 0.20),
+
+                selected: {
+                    text: OpenColor.gray[9],
+                    background: alpha(OpenColor.gray[5], 0.25),
+                    backgroundHover: alpha(OpenColor.gray[5], 0.35),
+                },
+
+                correct: {
+                    text: OpenColor.gray[9],
+                    background: alpha(OpenColor.green[5], 0.30),
+                    backgroundHover: alpha(OpenColor.green[5], 0.40),
+                },
+
+                incorrect: {
+                    text: OpenColor.gray[9],
+                    background: alpha(OpenColor.red[5], 0.30),
+                    backgroundHover: alpha(OpenColor.red[5], 0.40),
+                },
+            },
+
+            participant: {
+                background: alpha(OpenColor.gray[5], 0.25),
+                backgroundHover: alpha(OpenColor.gray[5], 0.35),
                 text: OpenColor.gray[9],
             },
 

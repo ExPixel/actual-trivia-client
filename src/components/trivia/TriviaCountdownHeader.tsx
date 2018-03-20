@@ -2,19 +2,27 @@ import React = require("react");
 import ReactDOM = require("react-dom");
 import Flex from "../flex/Flex";
 import Countdown from "../countdown/Countdown";
-import styles = require("./trivia.scss");
+import styled from "../../theme/styled";
 
 export interface IProps {
     label: string;
     countdownOn: boolean;
     millisRemaining: number;
+    className?: string;
 }
 
 const TriviaCountdownHeader = (props: IProps) => (
-    <Flex className={styles.promptHeader} row alignItems="center">
+    <Flex className={props.className} row alignItems="center">
         <Countdown active={props.countdownOn} timeRemaining={props.millisRemaining} />
-        <div className={styles.promptHeaderLabel}>{props.label}</div>
+        <div className="trivia-prompt-header-label">{props.label}</div>
     </Flex>
 );
 
-export default TriviaCountdownHeader;
+export default styled(TriviaCountdownHeader)`
+font-size: ${({theme}) => theme.typography.fontSizeLarge};
+padding: 8px;
+
+& .trivia-prompt-header-label {
+    margin-left: 16px;
+}
+`;

@@ -1,7 +1,6 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import TriviaChoice from "./TriviaChoice";
-import styles = require("./trivia.scss");
 
 export interface IProps {
     choices: string[];
@@ -32,7 +31,7 @@ class TriviaChoiceList extends React.PureComponent<IProps, {}> {
                 correct={this.props.correct < 0 ? undefined : this.props.correct === idx}
                 selected={idx === this.props.selected} />
         ));
-        return <div className={styles.choiceList}>
+        return <div>
             {choices}
         </div>;
     }
