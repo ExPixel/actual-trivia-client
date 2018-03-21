@@ -27,6 +27,7 @@ const defs = {
     },
 
     prod: {
+        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
         "process.env.NODE_ENV": JSON.stringify("production")
     }
 };
