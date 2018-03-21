@@ -5,7 +5,6 @@ import { Route, Switch } from "react-router-dom";
 import { combineStyles } from "../util";
 import LoginPage from "./LoginPage";
 import MainMenu from "./MainMenu";
-import styles = require("./styles/app.scss");
 import { getRootStore } from "../store";
 import AuthRoute from "../components/auth-route/AuthRoute";
 import { Redirect } from "react-router";
@@ -14,9 +13,14 @@ import { observe } from "mobx";
 import TriviaGameScreen from "./TriviaGameScreen";
 import RegisterPage from "./RegisterPage";
 import PageNotFound from "./PageNotFound";
+import styled from "../theme/styled";
+
+export interface IProps {
+    className?: string;
+}
 
 @observer
-class App extends React.Component<{}, {}> {
+class App extends React.Component<IProps, {}> {
     private readonly userStore = getRootStore().userStore;
     private stopObservingUserStore: (() => any) | null = null;
 
@@ -47,8 +51,7 @@ class App extends React.Component<{}, {}> {
     }
 
     public render() {
-        const appClass = combineStyles(styles.appContainer, styles.bgIndigoGradient);
-        return <div className={appClass}>
+        return <div className={this.props.className}>
             <Switch>
                 <Route exact={true} path="/" render={() => {
                     return <Redirect to={ this.userStore.loggedIn ? "/menu" : "/login" } />;
@@ -75,4 +78,16 @@ class App extends React.Component<{}, {}> {
     }
 }
 
-export default hot(module)(App);
+export default hot(module)(styled(App)`
+position: fixed;
+left: 0;
+right: 0;
+bottom: 0;
+top: 0;
+
+overflow-y: auto;
+
+// Make these themeable:
+background: ${({theme}) => theme.palette.background};
+color: ${({theme}) => theme.palette.text.primary};
+`);

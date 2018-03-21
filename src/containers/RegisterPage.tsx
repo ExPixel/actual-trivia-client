@@ -2,7 +2,6 @@ import React = require("react");
 import ReacDOM = require("react-dom");
 import { Link, withRouter } from "react-router-dom";
 import Flex from "../components/flex/Flex";
-import styles = require("./styles/login.scss");
 import { observer, inject } from "mobx-react";
 import { getRootStore } from "../store";
 import { IRouteLocation } from "../util";
@@ -10,6 +9,7 @@ import Typography from "../components/basic/Typography";
 import TextField from "../components/basic/TextField";
 import Button from "../components/basic/Button";
 import Branding from "../components/Branding";
+import { css } from "react-emotion";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_\\-\\.\\<\\>]+$");
 const EMAIL_REGEX = new RegExp("^[^@]+@[^@]+$");
@@ -136,8 +136,8 @@ class RegisterPage extends React.Component<{}, IState> {
 
     public render() {
         const signingUp = this.userStore.signingUp;
-        return <div className={styles.container}>
-            <div className={styles.containerInner}>
+        return <div className={styleContainer}>
+            <div className={styleContainerInner}>
                 <Branding width="224px" />
 
                 <Typography component="div">
@@ -191,5 +191,25 @@ class RegisterPage extends React.Component<{}, IState> {
     }
 }
 
-// inject()
+// #TODO merge with login's styleContainer and styleContainerInner somehow
+const styleContainer = css`
+display: flex;
+flex-direction: column;
+position: fixed;
+left: 0;
+bottom: 0;
+right: 0;
+top: 0;
+
+align-items: center;
+justify-content: center;
+`;
+
+const styleContainerInner = css`
+padding: 16px;
+max-width: 320px;
+width: 320px;
+overflow-y: auto;
+`;
+
 export default RegisterPage;
