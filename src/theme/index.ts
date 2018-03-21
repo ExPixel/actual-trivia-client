@@ -4,6 +4,8 @@ import { genAllShadows, elevationTransitionValue } from "./shadow";
 
 export interface ITheme {
     palette: {
+        background: string;
+
         text: {
             primary: string;
             secondary: string;
@@ -107,6 +109,7 @@ export interface ITheme {
 
 export const LightTheme: ITheme = {
     palette: {
+        background: OpenColor.gray[0],
         text: {
             primary:    "rgba(0, 0, 0, 1.0)",
             secondary:  "rgba(0, 0, 0, 0.60)",

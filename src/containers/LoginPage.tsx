@@ -2,7 +2,6 @@ import React = require("react");
 import ReacDOM = require("react-dom");
 import { Link, withRouter } from "react-router-dom";
 import Flex from "../components/flex/Flex";
-import styles = require("./styles/login.scss");
 import { observer, inject } from "mobx-react";
 import { getRootStore } from "../store";
 import { IRouteLocation } from "../util";
@@ -10,6 +9,7 @@ import Branding from "../components/Branding";
 import Typography from "../components/basic/Typography";
 import Button from "../components/basic/Button";
 import TextField from "../components/basic/TextField";
+import { css } from "react-emotion";
 
 export interface ILoginPageState {
     username: string;
@@ -72,8 +72,8 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
 
     public render() {
         const loggingIn = this.userStore.loggingIn;
-        return <div className={styles.container}>
-            <div className={styles.containerInner}>
+        return <div className={styleContainer}>
+            <div className={styleContainerInner}>
                 <Branding width="224px" />
                 {/* <Typography style={{ marginBottom: "8px" }} variant="headline" component="h2">
                     Login to Actual Trivia
@@ -115,5 +115,24 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
     }
 }
 
-// inject()
+const styleContainer = css`
+display: flex;
+flex-direction: column;
+position: fixed;
+left: 0;
+bottom: 0;
+right: 0;
+top: 0;
+
+align-items: center;
+justify-content: center;
+`;
+
+const styleContainerInner = css`
+padding: 16px;
+max-width: 320px;
+width: 320px;
+overflow-y: auto;
+`;
+
 export default LoginPage;
