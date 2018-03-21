@@ -1,7 +1,7 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import { hot } from "react-hot-loader";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { combineStyles } from "../util";
 import LoginPage from "./LoginPage";
 import MainMenu from "./MainMenu";
@@ -13,6 +13,7 @@ import { observer } from "mobx-react";
 import { observe } from "mobx";
 import TriviaGameScreen from "./TriviaGameScreen";
 import RegisterPage from "./RegisterPage";
+import PageNotFound from "./PageNotFound";
 
 @observer
 class App extends React.Component<{}, {}> {
@@ -48,24 +49,28 @@ class App extends React.Component<{}, {}> {
     public render() {
         const appClass = combineStyles(styles.appContainer, styles.bgIndigoGradient);
         return <div className={appClass}>
-            <Route exact={true} path="/" render={() => {
-                return <Redirect to={ this.userStore.loggedIn ? "/menu" : "/login" } />;
-            }} />
+            <Switch>
+                <Route exact={true} path="/" render={() => {
+                    return <Redirect to={ this.userStore.loggedIn ? "/menu" : "/login" } />;
+                }} />
 
-            <Route exact={true} path="/login" render={(props) => (
-                this.userStore.loggedIn ?
-                    <Redirect to="/menu" /> :
-                    <LoginPage />
-            )} />
+                <Route exact={true} path="/login" render={(props) => (
+                    this.userStore.loggedIn ?
+                        <Redirect to="/menu" /> :
+                        <LoginPage />
+                )} />
 
-            <Route exact={true} path="/signup" render={(props) => (
-                this.userStore.loggedIn ?
-                    <Redirect to="/menu" /> :
-                    <RegisterPage />
-            )} />
+                <Route exact={true} path="/signup" render={(props) => (
+                    this.userStore.loggedIn ?
+                        <Redirect to="/menu" /> :
+                        <RegisterPage />
+                )} />
 
-            <AuthRoute exact={true} path="/menu" component={MainMenu} />
-            <AuthRoute exact={true} path="/game/:gameId" component={TriviaGameScreen} />
+                <AuthRoute exact={true} path="/menu" component={MainMenu} />
+                <AuthRoute exact={true} path="/game/:gameId" component={TriviaGameScreen} />
+
+                <Route component={PageNotFound} />
+            </Switch>
         </div>;
     }
 }
