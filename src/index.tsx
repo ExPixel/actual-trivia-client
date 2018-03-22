@@ -12,7 +12,11 @@ import { RootStore, setRootStore } from "./store";
 import { ThemeProvider } from "emotion-theming";
 import { LightTheme } from "./theme";
 
-mobx.useStrict(true);
+mobx.configure({
+    enforceActions: true,
+    disableErrorBoundaries: true,
+});
+
 const store = new RootStore(API);
 store.userStore.loadAuthInfo(); // log us in 'n stuff
 setRootStore(store);
