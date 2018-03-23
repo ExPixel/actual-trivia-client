@@ -18,10 +18,11 @@ export interface IState {
 
 class TriviaPromptText extends React.PureComponent<IProps, IState> {
     private promptElement: HTMLDivElement | null = null;
-    private currentPromptAnimation: anime.AnimeInstance | null = null;
+    private animation: anime.AnimeTimelineInstance | null = null;
 
     constructor(props: IProps) {
         super(props);
+        this.createAnimation = this.createAnimation.bind(this);
         this.state = {
             animating: false,
             prompt: props.prompt,
@@ -29,61 +30,75 @@ class TriviaPromptText extends React.PureComponent<IProps, IState> {
         };
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IProps>) {
-        if (this.promptElement && nextProps.index !== this.state.index) {
-            this.setState({ animating: true });
-            this.animatePrompt(nextProps.prompt, nextProps.index);
+    public componentDidUpdate() {
+        if (this.animation && this.props.index !== this.state.index) {
+            this.animation.restart();
         } else {
             this.setState({
                 animating: false,
-                index: nextProps.index,
-                prompt: nextProps.prompt,
+                index: this.props.index,
+                prompt: this.props.prompt,
             });
         }
     }
 
-    private async animatePrompt(nextPrompt: string, nextPromptIndex: number) {
-        if (this.currentPromptAnimation) {
-            this.currentPromptAnimation.pause();
+    private createAnimation(pelement: HTMLDivElement) {
+        if (this.animation) {
+            anime.remove(this.promptElement);
+            this.animation.pause();
+            this.animation = null;
         }
+        this.promptElement = pelement;
 
-        const oldPrompt = this.state.prompt;
-        const oldPromptIndex = this.state.index;
+        const timeline = anime.timeline({
+            autoplay: false,
+        });
 
-        const animationLeave = anime({
+        // exit animation
+        timeline.add({
             targets: this.promptElement,
             translateX: -32,
             opacity: 0.0,
-            duration: 1000,
+            duration: 800,
             elasticity: 0,
+            complete: () => {
+                this.setState({
+                    animating: false,
+                    index: this.props.index,
+                    prompt: this.props.prompt,
+                });
+            },
         });
-        await animationLeave.finished;
 
-        this.setState({
-            animating: false,
-            index: nextPromptIndex,
-            prompt: nextPrompt,
-        }, async () => {
-            await delay(0); // Let React finish rendering.
-            const animationEnter = anime({
-                targets: this.promptElement,
-                translateX: 0,
-                opacity: 1.0,
-                duration: 1000,
-                elasticity: 500,
-            });
-            await animationEnter.finished;
+        // entrance animation
+        timeline.add({
+            targets: this.promptElement,
+            translateX: 0,
+            opacity: 1.0,
+            duration: 800,
+            elasticity: 500,
+
+            // hope for a rerender during this time
+            delay: 100,
         });
+
+        this.animation = timeline;
     }
 
     public componentWillUnmount() {
+        if (this.animation) {
+            this.animation.pause();
+            this.animation = null;
+        }
+
         if (this.promptElement) {
             anime.remove(this.promptElement);
+            this.promptElement = null;
         }
     }
 
     public render() {
-        return <div className={this.props.className} ref={(p) => this.promptElement = p}>
+        return <div className={this.props.className} ref={this.createAnimation}>
             {this.state.prompt}
         </div>;
     }
