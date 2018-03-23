@@ -48,7 +48,6 @@ class TriviaChoice extends React.PureComponent<IProps, {}> {
         });
 
         const sel = this.props.selected && (typeof correct !== "boolean");
-        console.log("sel (%s): ", this.props.text, sel);
 
         const label = this.props.index < 26 ? String.fromCharCode(65 + this.props.index) : "?";
         const labelBGColor = LABEL_COLORS[this.props.index % LABEL_COLORS.length];

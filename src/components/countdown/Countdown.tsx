@@ -40,7 +40,6 @@ class Countdown extends React.Component<IProps, IState> {
                     this.startInterval();
                 }
             } else {
-                console.log("calling stopAnimating: ", nextProps.active);
                 this.stopAnimating();
                 this.stopInterval();
             }
