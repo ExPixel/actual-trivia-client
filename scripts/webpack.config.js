@@ -204,4 +204,15 @@ module.exports = {
 if (inProdMode) {
     // #NOTE { removeUndefined: true } is there to fix this weird error: https://github.com/babel/minify/issues/790
     module.exports.plugins.push(new MinifyPlugin({ removeUndefined: false }, {}))
+
+    module.exports.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor",
+        minChunks: function(module) {
+            // ignore CSS files
+            if(module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+                return false;
+            }
+            return module.context && module.context.includes("node_modules");
+        }
+    }));
 }
