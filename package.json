@@ -16,6 +16,7 @@
     "clean": "./node_modules/.bin/rimraf build"
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "colorparser": "^1.0.3",
     "emotion": "^9.0.2",
     "emotion-theming": "^9.0.0",
@@ -33,6 +34,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0-beta.38",
     "@babel/preset-env": "^7.0.0-beta.38",
     "@babel/preset-react": "^7.0.0-beta.38",
+    "@types/animejs": "^2.0.0",
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.35",
     "@types/react-dom": "^16.0.3",

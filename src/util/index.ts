@@ -57,3 +57,11 @@ export function combineStyles(...styles: Array<string | string[]>): string {
 export function mixClasses(o: {[prop: string]: boolean}): string {
     return Object.keys(o).filter((k) => !!o[k]).join(" ");
 }
+
+/**
+ * Returns a promise that resolves after a delay. (wraps setTimeout)
+ * @param ms number of milliseconds to wait
+ */
+export function delay(ms: number): Promise<any> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
