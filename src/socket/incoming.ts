@@ -45,6 +45,9 @@ export interface IGameStartCountdownTick {
 
 export interface IGameStart {
     tag: IncomingMessageTag.GameStart;
+    payload: {
+        questionCount: number;
+    };
 }
 
 export interface ISetPrompt {

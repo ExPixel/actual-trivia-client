@@ -38,7 +38,7 @@ class TriviaPromptScreen extends React.Component<{}, {}> {
             // #TODO fix question count
             promptHeader = (<TriviaPromptHeader
                 questionIndex={this.triviaStore.question.index}
-                questionCount={10}
+                questionCount={this.triviaStore.questionCount}
                 countdownOn={this.triviaStore.questionCountdownOn}
                 millisRemaining={this.triviaStore.questionCountdownMillis}
             />);

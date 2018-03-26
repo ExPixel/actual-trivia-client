@@ -21,6 +21,7 @@ export class TriviaStore {
 
     @observable public questionCountdownOn = false;
     @observable public questionCountdownMillis = 0;
+    @observable public questionCount = 0;
     @observable public question: Readonly<IQuestion> = {
         index: -1,
         prompt: "",
@@ -48,6 +49,7 @@ export class TriviaStore {
         this.questionAnswerIndex = -1;
         this.selectedAnswerIndex = -1;
         this.participants = [];
+        this.questionCount = 0;
     }
 
     private send(msg: IOutgoingMessage) {
@@ -79,6 +81,7 @@ export class TriviaStore {
 
             case IncomingMessageTag.GameStart: {
                 this.currentMode = TriviaMode.ShowQuestion;
+                this.questionCount = message.payload.questionCount;
                 this.gameStartCountdownOn = false;
                 this.gameStartCountdownMillis = 0;
                 break;
