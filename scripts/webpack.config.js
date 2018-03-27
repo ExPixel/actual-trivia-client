@@ -68,7 +68,7 @@ module.exports = {
     output: {
         path: rel.build("."),
         filename: "[name].bundle.js",
-        publicPath: "/",
+        publicPath: "/play/",
     },
 
     module: {
@@ -143,7 +143,7 @@ module.exports = {
                     options: {
                         name: (file) => (inDevMode ? "[path][name].[ext]" : "[path][hash].[ext]"),
                         context: rel.src("static"),
-                        publicPath: "/static/",
+                        publicPath: "/play/static/",
                         outputPath: "static/",
                     }
                 }]
@@ -157,13 +157,16 @@ module.exports = {
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
             "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization",
         },
-        contentBase: rel.build("."),
+        publicPath: "/play/",
+        // contentBase: rel.build("."),
         compress: true,
         port: 9000,
         historyApiFallback: {
             // logger: console.log.bind(console),
             rewrites: [
-                { from: /\/game\/\w+\/?$/, to: "/index.html" },
+                { from: /\/play$/, to: "/index.html" },
+                { from: /\/play\/\w+\/?$/, to: "/index.html" },
+                { from: /\/play\/game\/\w+\/?$/, to: "/index.html" },
             ]
         },
         hot: true,
