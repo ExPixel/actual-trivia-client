@@ -22,12 +22,13 @@ const defs = {
     },
 
     dev: {
-        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        // "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        "process.env.API_ORIGIN": `window.location.origin + '/v1'`,
         "process.env.NODE_ENV": JSON.stringify("development")
     },
 
     prod: {
-        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        "process.env.API_ORIGIN": `window.location.origin + '/v1'`,
         "process.env.NODE_ENV": JSON.stringify("production")
     }
 };
@@ -164,9 +165,9 @@ module.exports = {
         historyApiFallback: {
             // logger: console.log.bind(console),
             rewrites: [
-                { from: /\/play$/, to: "/index.html" },
-                { from: /\/play\/\w+\/?$/, to: "/index.html" },
-                { from: /\/play\/game\/\w+\/?$/, to: "/index.html" },
+                { from: /\/play\/?$/, to: "/play/index.html" },
+                { from: /\/play\/\w+\/?$/, to: "/play/index.html" },
+                { from: /\/play\/game\/\w+\/?$/, to: "/play/index.html" },
             ]
         },
         hot: true,
