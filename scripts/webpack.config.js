@@ -167,7 +167,7 @@ module.exports = {
             rewrites: [
                 { from: /\/play\/?$/, to: "/play/index.html" },
                 { from: /\/play\/\w+\/?$/, to: "/play/index.html" },
-                { from: /\/play\/game\/\w+\/?$/, to: "/play/index.html" },
+                { from: /\/play\/game\/[^\/]+\/?$/, to: "/play/index.html" },
             ]
         },
         hot: true,
