@@ -53,9 +53,6 @@ export class TriviaAPIClient {
     }
 
     public request<T>(method: string, endpoint: string, data?: IRequestData, authorize: boolean = true): Promise<IAPIResp<T>> {
-        // #TODO add a polyfill for the fetch API: https://github.com/github/fetch
-        // browser support is pretty good, but I might as well.
-
         const url = this.getEndpointURL(endpoint);
         const headers: {[h: string]: string} = {};
         if (authorize) {
