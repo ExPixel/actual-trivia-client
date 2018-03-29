@@ -1,0 +1,52 @@
+Client Bugs:
+    ✔ Fix the main menu UI so that the menu items list can be scrolled if there is not enough space @done (2018-2-22 09:57:03)
+    ☐ Consider fixing the issue of routes not being rerendered because location is passed through the context
+    by wrapping components in a pathless route instead of what I'm currently doing which is overriding 
+    shouldComponentUpdate. I like my solution more for now because it basically does the same thing
+    without adding yet another component to delgate crap to its children while polluting my devtools.
+
+Client Tasks:
+    ☐ Show login errors on the login screen instead of the alert.
+    ☐ Show registration errors on the register screen instead of the alert.
+    ☐ Upgrade to mobx 4
+    ✔ Change the question count when it's sent from the server. Right now it defaults to 10. @done (2018-3-26 12:38:07)
+    ☐ Add initial game options @low  
+        ☐ Add game option for number of questions displayed during the game.
+        ☐ Add game option for the number of time given for each prompt.
+        ☐ Maybe add a game option to configure just how much reading time there
+        is for each question?
+    ☐ Add an animation for the trivia prompt choices. @low 
+    ☐ Create UI for creating game lobbies. @high 
+    ☐ Create the UI for finding and creating lobbies.
+    ☐ Create the UI for submitting new questions.
+    ☐ Create the UI for local client settings.
+    ☐ Add a polyfill for the fetch API. Browser support is okay but I might as well add a drop in.
+        - https://github.com/github/fetch
+    ☐ Create a better 404 page.
+    ☐ Show the user an error on the trivia screen when the trivia store reports that a game was not found.
+    ☐ Show the user an error on the triviai screen (or really much earlier) when the trivia store reports
+    that the user was not found. This should be really rare so it might just be an alert or something.
+    ☐ In the trivia-store's connectToGame implementation I'm using a hacky method to create the URL for
+    the websocket connection. Right now I'm just using some regex to replace the protocol specified
+    in API_ORIGIN but maybe I could just provide a second definition like WS_ORIGIN in the 
+    webpack config. Or maybe I could have API_ORIGIN_HOST and then derive API_ORIGIN from that.
+
+    Main Menu:
+        ☐ IMainMenuState.disableItems should stop a user from clicking any of the menu items.
+        ☐ Properly implement the "Join Game" menu item.
+        It might alreayd be okay as it is now actually.
+        ☐ Connect the "Find Lobby" menu item
+        ☐ Connect the "Submit Questions" menu item
+        ☐ Connect the "Settings" menu item
+        ☐ Find out what I want to put on the right side of the menu
+    Login:
+        ☐ Show an error when logging in as a user or a guest fails instead of showing an alert.
+    Register:
+        ☐ Merge the register page's implementation of styleContainer and styleContainerInner with the login page somehow.
+    Trivia Game:
+        ☐ Animate the entrance and exit of trivia prompt answer choices.
+        ☐ Make the text color of the trivia prompt choice labels change based on the background color.
+        The color should only be black or white (OpenColor.gray[0] or OpenColor.gray[9])
+        ☐ Replace the usage of TriviaPromptHeader with TriviaCountdownHeader
+        I don't actually remember which one I was supposed to replace with the other but it should
+        be easy to figure that out.
