@@ -64,12 +64,10 @@ export class TriviaStore {
     private messageReceived(message: IncomingMessage) {
         switch (message.tag) {
             case IncomingMessageTag.GameNotFound: {
-                // #TODO show an error here or something for the game not being found.
                 break;
             }
 
             case IncomingMessageTag.UserNotFound: {
-                // #TODO show an error here and remove the user from the game.
                 break;
             }
 
@@ -177,9 +175,6 @@ export class TriviaStore {
         this.gameId = gameId;
         this.connecting = true;
 
-        // #TODO I don't really like the way I'm doing this right now. It's error prone.
-        // Maybe I just shouldn't add a protocol to the API_ORIGIN in the webpack config.
-        // Not important  right now though.
         const httpUrl = this.client.getEndpointURL("/game/ws/" + gameId);
         const websocketUrl = httpUrl.replace(/https?\:\/\//, "ws://");
         console.log("connecting to socket: ", websocketUrl);

@@ -22,12 +22,13 @@ const defs = {
     },
 
     dev: {
-        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        // "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        "process.env.API_ORIGIN": `window.location.origin + '/v1'`,
         "process.env.NODE_ENV": JSON.stringify("development")
     },
 
     prod: {
-        "process.env.API_ORIGIN": JSON.stringify("http://localhost:8080/v1/"),
+        "process.env.API_ORIGIN": `window.location.origin + '/v1'`,
         "process.env.NODE_ENV": JSON.stringify("production")
     }
 };
@@ -68,7 +69,7 @@ module.exports = {
     output: {
         path: rel.build("."),
         filename: "[name].bundle.js",
-        publicPath: "/",
+        publicPath: "/play/",
     },
 
     module: {
@@ -143,7 +144,7 @@ module.exports = {
                     options: {
                         name: (file) => (inDevMode ? "[path][name].[ext]" : "[path][hash].[ext]"),
                         context: rel.src("static"),
-                        publicPath: "/static/",
+                        publicPath: "/play/static/",
                         outputPath: "static/",
                     }
                 }]
@@ -157,13 +158,16 @@ module.exports = {
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
             "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization",
         },
-        contentBase: rel.build("."),
+        publicPath: "/play/",
+        // contentBase: rel.build("."),
         compress: true,
         port: 9000,
         historyApiFallback: {
             // logger: console.log.bind(console),
             rewrites: [
-                { from: /\/game\/\w+\/?$/, to: "/index.html" },
+                { from: /\/play\/?$/, to: "/play/index.html" },
+                { from: /\/play\/\w+\/?$/, to: "/play/index.html" },
+                { from: /\/play\/game\/[^\/]+\/?$/, to: "/play/index.html" },
             ]
         },
         hot: true,

@@ -35,7 +35,6 @@ class TriviaPromptScreen extends React.Component<{}, {}> {
                     selectionIndex={this.triviaStore.selectedAnswerIndex} />
             );
 
-            // #TODO fix question count
             promptHeader = (<TriviaPromptHeader
                 questionIndex={this.triviaStore.question.index}
                 questionCount={this.triviaStore.questionCount}

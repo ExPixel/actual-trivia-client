@@ -53,8 +53,6 @@ class TriviaChoice extends React.PureComponent<IProps, {}> {
         const labelBGColor = LABEL_COLORS[this.props.index % LABEL_COLORS.length];
         const labelStyle: React.CSSProperties = {
             backgroundColor: labelBGColor,
-
-            // #TODO change the text color so that is contrasts the background color.
             color: OpenColor.gray[0],
         };
 

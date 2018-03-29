@@ -11,7 +11,6 @@ export interface IMainMenuProps {
 }
 
 export interface IMainMenuState {
-    // #TODO right now this does nothing but it should stop the user from clicking any of the other menu items.
     disableItems: boolean;
 }
 
@@ -65,17 +64,14 @@ class MainMenu extends React.Component<IMainMenuProps, IMainMenuState> {
     }
 
     private actionFindLobby() {
-        // #TODO remove this test code once I have a way to actually create lobbies.
         alert("This feature is not yet implemented.");
     }
 
     private actionSubmitQuestions() {
-        // #TODO not yet implemented
         alert("This feature is not yet implemented.");
     }
 
     private actionSettings() {
-        // #TODO not yet implemented.
         alert("This feature is not yet implemented.");
     }
 
@@ -90,7 +86,6 @@ class MainMenu extends React.Component<IMainMenuProps, IMainMenuState> {
     public render() {
         return <div className={mainMenuClass}>
             <div className={mainMenuHeaderClass}>
-                {/* #TODO replace this with something cooler lookin' */}
                 <Branding />
             </div>
             <div className={mainMenuBodyClass}>
@@ -102,10 +97,6 @@ class MainMenu extends React.Component<IMainMenuProps, IMainMenuState> {
                     <MenuItem onClick={this.actionLogOut} title="Log Out" description="Hop on your smurf account and start racking up easy rares." />
                 </div>
 
-                {/*
-                    #TODO I'm not actually what I want to be on the right of the menu yet.
-                    Maybe some cool little images when you hover over a menu item.
-                */}
                 <div className={menuRightClass}>
                 </div>
             </div>

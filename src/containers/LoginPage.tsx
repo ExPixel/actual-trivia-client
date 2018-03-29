@@ -37,7 +37,6 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
     private async loginUser() {
         const success = await this.userStore.login(this.state.username, this.state.password);
         if (!success) {
-            // #TODO show an error on the login form when this fails.
             alert("Failed to login.");
         }
     }
@@ -45,7 +44,6 @@ class LoginPage extends React.Component<{}, ILoginPageState> {
     private async loginUserAsGuest() {
         const success = await this.userStore.loginAsGuest();
         if (!success) {
-            // #TODO show an error on the login form when this fails.
             alert("Failed to login as guest.");
         }
     }

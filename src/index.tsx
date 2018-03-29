@@ -22,7 +22,7 @@ store.userStore.loadAuthInfo(); // log us in 'n stuff
 setRootStore(store);
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/play">
         <ThemeProvider theme={LightTheme}>
             <App />
         </ThemeProvider>

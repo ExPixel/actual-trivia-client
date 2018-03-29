@@ -12,7 +12,6 @@ export interface IProps {
     className?: string;
 }
 
-// #TODO replace usage of this with TriviaCountdownHeader
 const TriviaPromptHeader = (props: IProps) => (
     <Flex className={props.className} row alignItems="center">
         <Countdown active={props.countdownOn} timeRemaining={props.millisRemaining} />

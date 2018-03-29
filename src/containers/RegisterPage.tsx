@@ -101,14 +101,6 @@ class RegisterPage extends React.Component<{}, IState> {
         return err;
     }
 
-    private async loginUserAsGuest() {
-        const success = await this.userStore.loginAsGuest();
-        if (!success) {
-            // #TODO show an error on the login form when this fails.
-            alert("Failed to login as guest.");
-        }
-    }
-
     private onFormSubmit(e: React.UIEvent<HTMLFormElement>) {
         e.preventDefault();
         this.signupUser();
@@ -191,7 +183,6 @@ class RegisterPage extends React.Component<{}, IState> {
     }
 }
 
-// #TODO merge with login's styleContainer and styleContainerInner somehow
 const styleContainer = css`
 display: flex;
 flex-direction: column;
